@@ -10,23 +10,50 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet var CPFTextField: UITextField!
+    @IBOutlet var CNPJTextField: UITextField!
     @IBOutlet var CPFCNPJTextField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        CPFCNPJTextField.becomeFirstResponder()
+        CPFTextField.becomeFirstResponder()
     }
-
 
     // MARK: Text Field Delegate
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == CPFCNPJTextField {
-            if let count = textField.text?.count, count == 18, string.count > 0 {
+
+        guard let text = textField.text else { return false }
+
+        switch textField {
+        case CPFTextField:
+            if  text.count == 14, string.count > 0 {
                 return false
             }
 
-            guard let text = textField.text else { return false }
+            let numberPattern: MaskType = .CPF
+
+            textField.text = string.count < 1 ?
+                CPFCNPJMask.applyMask(numberPattern, toText: String(text.dropLast())) :
+                CPFCNPJMask.applyMask(numberPattern, toText: text + string)
+
+            return false
+        case CNPJTextField:
+            if text.count == 18, string.count > 0 {
+                return false
+            }
+
+            let numberPattern: MaskType = .CNPJ
+
+            textField.text = string.count < 1 ?
+                CPFCNPJMask.applyMask(numberPattern, toText: String(text.dropLast())) :
+                CPFCNPJMask.applyMask(numberPattern, toText: text + string)
+
+            return false
+        case CPFCNPJTextField:
+            if text.count == 18, string.count > 0 {
+                return false
+            }
 
             let numberPattern: MaskType = text.count > 15 || (text.count > 13 && string.count > 0)
                 ? .CNPJ : .CPF
@@ -36,14 +63,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 CPFCNPJMask.applyMask(numberPattern, toText: text + string)
 
             return false
+        default:
+            return true
         }
-
-        return true
-    }
-
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
 }
 
