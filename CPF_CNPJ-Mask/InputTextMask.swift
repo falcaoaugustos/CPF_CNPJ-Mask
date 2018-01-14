@@ -11,9 +11,10 @@ import Foundation
 public enum MaskType: String {
     case CPF = "***.***.***-**"
     case CNPJ = "**.***.***/****-**"
+    case birthday = "**/**/****"
 }
 
-class CPFCNPJMask {
+class InputTextMask {
     private static func stringFilterWithCharacter(_ char: Character) -> Bool {
         return char != "." && char != "/" && char != "-"
     }
@@ -22,9 +23,9 @@ class CPFCNPJMask {
         var filterdText = [Character]()
 
         text.filter { (char) -> Bool in
-            CPFCNPJMask.stringFilterWithCharacter(char)
-            }.forEach { (char) in
-                filterdText.append(char)
+            InputTextMask.stringFilterWithCharacter(char)
+        }.forEach { (char) in
+            filterdText.append(char)
         }
 
         let textLength = filterdText.count

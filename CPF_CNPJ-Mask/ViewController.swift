@@ -34,8 +34,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let numberPattern: MaskType = .CPF
 
             textField.text = string.count < 1 ?
-                CPFCNPJMask.applyMask(numberPattern, toText: String(text.dropLast())) :
-                CPFCNPJMask.applyMask(numberPattern, toText: text + string)
+                InputTextMask.applyMask(numberPattern, toText: String(text.dropLast())) :
+                InputTextMask.applyMask(numberPattern, toText: text + string)
 
             return false
         case CNPJTextField:
@@ -46,8 +46,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let numberPattern: MaskType = .CNPJ
 
             textField.text = string.count < 1 ?
-                CPFCNPJMask.applyMask(numberPattern, toText: String(text.dropLast())) :
-                CPFCNPJMask.applyMask(numberPattern, toText: text + string)
+                InputTextMask.applyMask(numberPattern, toText: String(text.dropLast())) :
+                InputTextMask.applyMask(numberPattern, toText: text + string)
 
             return false
         case CPFCNPJTextField:
@@ -59,8 +59,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 ? .CNPJ : .CPF
 
             textField.text = string.count < 1 ?
-                CPFCNPJMask.applyMask(numberPattern, toText: String(text.dropLast())) :
-                CPFCNPJMask.applyMask(numberPattern, toText: text + string)
+                InputTextMask.applyMask(numberPattern, toText: String(text.dropLast())) :
+                InputTextMask.applyMask(numberPattern, toText: text + string)
 
             return false
         default:
