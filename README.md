@@ -1,12 +1,10 @@
 # CPF_CNPJ-Mask
 
-## Contents
+Format your input text with a CPF / CNPJ mask. You can add a custom mask too.
 
-- [ ] Preview
-- [x] Installation
-- [x] Usage (Getting Started, Example, Customization)
-- [x] Contributing
-- [x] License
+## Preview
+
+![ANIMATION_01](media/animation01.gif)
 
 
 ## Installation
