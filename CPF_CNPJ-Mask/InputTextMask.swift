@@ -19,30 +19,56 @@ class InputTextMask {
         return char != "." && char != "/" && char != "-"
     }
 
-    public static func applyMask(_ mask: MaskType, toText text: String) -> String {
-        var filterdText = [Character]()
+    private static func transformStringToFilteredCharCollection(_ text: String) -> [Character] {
+        var filteredText = [Character]()
 
         text.filter { (char) -> Bool in
             InputTextMask.stringFilterWithCharacter(char)
         }.forEach { (char) in
-            filterdText.append(char)
+            filteredText.append(char)
         }
 
-        let textLength = filterdText.count
+        return filteredText
+    }
+
+    private static func transformCharCollectionToString(_ chars: [Character]) -> String {
+        var rawString = ""
+
+        chars.forEach { (char) in
+            rawString += String(char)
+        }
+
+        return rawString
+    }
+
+    private static func transformCharCollectionToMaskedString(_ chars: [Character], mask: MaskType) -> String {
+        let textLength = chars.count
         var textIndex = 0
-        var result = ""
+        var maskedString = ""
 
         mask.rawValue.forEach { (char) in
             if textIndex < textLength {
                 if char == "*" {
-                    result += String(filterdText[textIndex])
+                    maskedString += String(chars[textIndex])
                     textIndex += 1
                 } else  {
-                    result += String(char)
+                    maskedString += String(char)
                 }
             }
         }
 
-        return result
+        return maskedString
+    }
+
+    public static func filterMaskFromText(_ text: String) -> String {
+        let filteredCharCollection = InputTextMask.transformStringToFilteredCharCollection(text)
+
+        return InputTextMask.transformCharCollectionToString(filteredCharCollection)
+    }
+
+    public static func applyMask(_ mask: MaskType, toText text: String) -> String {
+        let filteredCharCollection = InputTextMask.transformStringToFilteredCharCollection(text)
+
+        return InputTextMask.transformCharCollectionToMaskedString(filteredCharCollection, mask: mask)
     }
 }
